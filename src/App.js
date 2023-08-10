@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { Spinner, Input } from "reactstrap";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
+import { DebounceInput } from "react-debounce-input";
 
 class App extends React.Component {
   constructor() {
@@ -33,7 +34,7 @@ class App extends React.Component {
 
   render() {
     const { photos, searchQuery } = this.state;
-    //console.log(searchQuery)
+    console.log(searchQuery)
     const filtered = photos.filter((photo) =>
       photo.alt_description.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -42,7 +43,13 @@ class App extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-12 m-5">
-            <Input onChange={this.handleSearch} value={searchQuery} />
+            {/* <Input onChange={this.handleSearch} value={searchQuery} /> */}
+            <DebounceInput
+              minLength={2}
+              debounceTimeout={2000}
+              onChange={this.handleSearch}
+              value={searchQuery}
+            />
           </div>
           {photos.length ? (
             filtered.map((photo) => {
